@@ -7,15 +7,43 @@ Utilities for CodePush
 ```sh
 npm install react-native-code-push-utils
 ```
+or
+```sh
+yarn add react-native-code-push-utils
+```
 
 ## Usage
 
+### Default CodePush config
 ```js
-import CodePushUtils from "react-native-code-push-utils";
+import CodePushProvider from "react-native-code-push-utils";
+import App from "./App";
 
-// ...
+export default function Root() {
+    return (
+        <CodePushProvider>
+            <App />
+        </CodePushProvider>
+    )
+}
+```
 
-const result = await CodePushUtils.multiply(3, 7);
+### Custom CodePush config
+```js
+import codePush from "react-native-code-push";
+import {CodePushProvider} from "react-native-code-push-utils";
+import App from "./App";
+
+function Root() {
+    return (
+        <CodePushProvider>
+            <App />
+        </CodePushProvider>
+    )
+}
+
+const config = {...};
+export default codePush(config)(Root);
 ```
 
 ## Contributing
