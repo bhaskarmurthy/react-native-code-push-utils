@@ -46,6 +46,16 @@ const config = {...};
 export default codePush(config)(Root);
 ```
 
+### Hooks
+```js
+import {useCodePush} from "react-native-code-push-utils";
+
+function App() {
+    const { status } = useCodePush();
+    return <Text>{status}</Text>
+}
+```
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
