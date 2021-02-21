@@ -80,7 +80,6 @@ const CodePushSplashScreen = ({
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'red',
   },
   logoContainer: {
     flex: 1,
