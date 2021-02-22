@@ -56,6 +56,21 @@ function App() {
 }
 ```
 
+### Splash screen component
+```js
+import CodePushProvider, { CodePushSplashScreen } from 'react-native-code-push-utils';
+
+const Root = () => (
+  <CodePushProvider>
+    <CodePushSplashScreen>
+      <View>
+        <Text>Hello, app</Text>
+      </View>
+    </CodePushSplashScreen>
+  </CodePushProvider>
+);
+```
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
