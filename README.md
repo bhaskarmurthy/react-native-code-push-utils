@@ -71,6 +71,23 @@ const Root = () => (
 );
 ```
 
+#### With timeout
+```js
+import CodePushProvider, { CodePushSplashScreen } from 'react-native-code-push-utils';
+
+const TIMEOUT_MS = 15 * 1000; // 15 seconds timeout
+
+const Root = () => (
+  <CodePushProvider>
+    <CodePushSplashScreen timeout={TIMEOUT_MS}>
+      <View>
+        <Text>Hello, app</Text>
+      </View>
+    </CodePushSplashScreen>
+  </CodePushProvider>
+);
+```
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
