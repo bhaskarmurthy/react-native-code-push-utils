@@ -19,7 +19,6 @@ interface SplashScreenProps {
   LoadingComponent?: React.ReactElement;
   ErrorComponent?: React.ReactElement;
   continueOnError?: boolean;
-  continueOnTimeout?: boolean;
   timeout?: number;
 }
 
@@ -53,7 +52,6 @@ const CodePushSplashScreen = ({
   loadingText = 'Checking for updates...',
   errorText = 'There was an error when checking for updates.',
   continueOnError = true,
-  continueOnTimeout = true,
   timeout,
 }: SplashScreenProps) => {
   const { status } = useCodePush();
@@ -71,7 +69,7 @@ const CodePushSplashScreen = ({
   }, [timeout]);
 
   // continue on timeout
-  if (timedOut && continueOnTimeout) {
+  if (timedOut) {
     return children;
   }
 
