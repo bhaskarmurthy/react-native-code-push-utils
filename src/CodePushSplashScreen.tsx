@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -19,6 +19,8 @@ interface SplashScreenProps {
   LoadingComponent?: React.ReactElement;
   ErrorComponent?: React.ReactElement;
   continueOnError?: boolean;
+  continueOnTimeout?: boolean;
+  timeout?: number;
 }
 
 interface SplashViewProps {
@@ -50,20 +52,39 @@ const CodePushSplashScreen = ({
   ErrorComponent,
   loadingText = 'Checking for updates...',
   errorText = 'There was an error when checking for updates.',
-  continueOnError: proceedOnError = true,
+  continueOnError = true,
+  continueOnTimeout = true,
+  timeout,
 }: SplashScreenProps) => {
   const { status } = useCodePush();
+  const [timedOut, setTimedOut] = useState(false);
+
+  useEffect(() => {
+    if (timeout && timeout > 0) {
+      const timerId = setTimeout(() => {
+        setTimedOut(true);
+      }, timeout);
+      return () => clearTimeout(timerId);
+    }
+
+    return;
+  }, [timeout]);
+
+  // continue on timeout
+  if (timedOut && continueOnTimeout) {
+    return children;
+  }
 
   switch (status) {
     case CodePush.SyncStatus.UP_TO_DATE: // The app is fully up-to-date with the configured deployment.
     case CodePush.SyncStatus.UPDATE_INSTALLED: // An available update has been installed and will be run either immediately after the syncStatusChangedCallback function returns or the next time the app resumes/restarts, depending on the InstallMode specified in SyncOptions.
     case CodePush.SyncStatus.UPDATE_IGNORED: // The app has an optional update, which the end user chose to ignore. (This is only applicable when the updateDialog is used)
-      return children;
+      setTimedOut(true);
+      break;
     case CodePush.SyncStatus.UNKNOWN_ERROR: // The sync operation encountered an unknown error.
-      if (proceedOnError) {
+      if (continueOnError) {
         return children;
       }
-
       return ErrorComponent ?? <SplashView label={errorText} />;
     case CodePush.SyncStatus.SYNC_IN_PROGRESS: // There is an ongoing sync operation running which prevents the current call from being executed.
     case CodePush.SyncStatus.CHECKING_FOR_UPDATE: // The CodePush server is being queried for an update.
